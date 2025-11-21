@@ -1,1 +1,147 @@
-Placeholder image - Replace with actual LPFTS poster
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LPFTS Legacy Codex - AR Poster</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .poster-container {
+            width: 210mm;
+            height: 297mm;
+            position: relative;
+            overflow: hidden;
+            background: #000;
+        }
+
+        /* Your professional poster as background */
+        .poster-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* QR Code overlay - positioned to avoid covering content */
+        .qr-overlay {
+            position: absolute;
+            right: 50px;
+            bottom: 380px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qr-frame {
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            border: 3px solid #ffffff;
+            border-radius: 15px;
+            box-shadow: 
+                0 0 30px rgba(255, 255, 255, 0.6),
+                0 0 50px rgba(0, 229, 255, 0.4),
+                inset 0 0 20px rgba(0, 229, 255, 0.1);
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { 
+                box-shadow: 
+                    0 0 30px rgba(255, 255, 255, 0.6),
+                    0 0 50px rgba(0, 229, 255, 0.4);
+            }
+            50% { 
+                box-shadow: 
+                    0 0 40px rgba(255, 255, 255, 0.8),
+                    0 0 70px rgba(0, 229, 255, 0.6);
+            }
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .qr-label {
+            font-family: 'Impact', sans-serif;
+            font-size: 13px;
+            color: #ffffff;
+            letter-spacing: 2px;
+            text-align: center;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-shadow: 
+                0 0 15px rgba(0, 229, 255, 0.9),
+                0 2px 4px rgba(0, 0, 0, 1);
+        }
+
+        @media print {
+            body {
+                padding: 0;
+            }
+            .poster-container {
+                page-break-after: always;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .poster-container {
+                width: 100vw;
+                height: 100vh;
+            }
+            .qr-overlay {
+                right: 20px;
+                bottom: 200px;
+            }
+            .qr-code {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="poster-container">
+        <!-- YOUR PROFESSIONAL POSTER IMAGE -->
+        <!-- Replace this src with the path to your actual poster image file -->
+        <img src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27794%27 height=%271123%27%3E%3Crect fill=%27%23000%27 width=%27100%25%27 height=%27100%25%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 text-anchor=%27middle%27 fill=%27%2300E5FF%27 font-size=%2740%27 font-family=%27Impact%27%3EREPLACE WITH YOUR POSTER IMAGE%3C/text%3E%3C/svg%3E" alt="LPFTS Legacy Codex Poster" class="poster-bg" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27794%27 height=%271123%27%3E%3Crect fill=%27%23000%27 width=%27100%25%27 height=%27100%25%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 text-anchor=%27middle%27 fill=%27%2300E5FF%27 font-size=%2740%27 font-family=%27Impact%27%3EREPLACE WITH YOUR POSTER IMAGE%3C/text%3E%3C/svg%3E'">
+        
+        <!-- QR CODE OVERLAY ONLY -->
+        <div class="qr-overlay">
+            <div class="qr-frame">
+                <img src="lpfts-poster-professional_files/Untitled.png" alt="Scan for AR" class="qr-code">
+            </div>
+            <p class="qr-label">Scan to Enter AR</p>
+        </div>
+    </div>
+
+
+</body></html>
