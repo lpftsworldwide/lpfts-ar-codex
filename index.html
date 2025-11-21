@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="LPFTS Legacy Codex WebAR - Scan the poster to unlock the AR experience">
+    <meta name="theme-color" content="#000000">
+    <title>LPFTS Codex WebAR</title>
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/styles.css">
+    
+    <!-- MindAR from CDN (fallback to local if offline) -->
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.4/dist/mindar-image-three.prod.js" 
+            onerror="this.onerror=null; this.src='/lib/mindar-image-three.prod.js';"></script>
+</head>
+<body>
+    <!-- Loading screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">LPFTS</div>
+            <div class="loading-flame-ring"></div>
+            <h2>Loading LPFTS Legacy Codex…</h2>
+            <p>Allow camera access to unlock the AR book.</p>
+        </div>
+    </div>
+
+    <!-- Permission message -->
+    <div id="permission-message" class="permission-message" style="display: none;">
+        <div class="permission-content">
+            <h2>📷 Camera Access Required</h2>
+            <p>Camera access is required to view the AR Codex.</p>
+            <p style="font-size: 13px; margin-top: 10px; opacity: 0.8;">Please allow camera permissions and reload the page.</p>
+            <div style="margin-top: 15px; padding: 12px; background: rgba(0, 229, 255, 0.1); border-radius: 8px; font-size: 12px; line-height: 1.5;">
+                <strong style="color: #00E5FF;">For iPhone/iPad users:</strong><br>
+                Go to Settings → Safari → Camera<br>
+                Set to "Ask" or "Allow"
+            </div>
+            <button onclick="location.reload()" style="margin-top: 15px; padding: 12px 24px; background: linear-gradient(135deg, #00E5FF, #32FFF5); color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Reload & Allow</button>
+        </div>
+    </div>
+
+    <!-- AR Container -->
+    <div id="ar-container"></div>
+
+    <!-- Instructions overlay -->
+    <div id="instructions" class="instructions">
+        <div class="instructions-content">
+            <h3>📱 How to Use</h3>
+            <ol>
+                <li>Point your camera at the LPFTS poster</li>
+                <li>Wait for the Codex to appear</li>
+                <li>Double-tap to zoom and open the book</li>
+                <li>Explore the interactive pages</li>
+            </ol>
+            <button id="close-instructions" class="close-btn">Got it!</button>
+        </div>
+    </div>
+
+    <!-- Error message -->
+    <div id="error-message" class="error-message hidden"></div>
+
+    <!-- Main script -->
+    <script type="module" src="/src/main.js"></script>
+
+    <script>
+        // Hide loading screen when ready
+        let loadingHidden = false;
+        
+        function hideLoadingScreen() {
+            if (loadingHidden) return;
+            loadingHidden = true;
+            const loading = document.getElementById('loading-screen');
+            if (loading) {
+                loading.style.opacity = '0';
+                setTimeout(() => {
+                    loading.style.display = 'none';
+                }, 500);
+            }
+        }
+
+        // Close instructions
+        document.getElementById('close-instructions')?.addEventListener('click', () => {
+            document.getElementById('instructions').classList.add('hidden');
+        });
+
+        // Mobile Safari viewport fix
+        if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+            const viewport = document.querySelector('meta[name="viewport"]');
+            if (viewport) {
+                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+            }
+            document.body.classList.add('ios');
+        }
+
+        // Android Chrome compatibility
+        if (/Android/.test(navigator.userAgent)) {
+            document.body.classList.add('android');
+        }
+
+        // Samsung Browser detection
+        if (/Samsung/.test(navigator.userAgent)) {
+            document.body.classList.add('samsung');
+        }
+
+        // Expose hideLoadingScreen for main.js
+        window.hideLoadingScreen = hideLoadingScreen;
+
+        // Preload check
+        window.addEventListener('load', () => {
+            // Safety timeout: If loading screen still visible after 10 seconds, show error
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loading-screen');
+                if (loadingScreen && loadingScreen.style.display !== 'none' && loadingScreen.style.opacity !== '0') {
+                    console.warn('Loading timeout - showing error message');
+                    hideLoadingScreen();
+                    
+                    // Show error message
+                    const errorDiv = document.getElementById('error-message');
+                    if (errorDiv) {
+                        errorDiv.classList.remove('hidden');
+                        errorDiv.innerHTML = `
+                            <div style="padding: 20px; max-width: 400px; margin: 0 auto; background: rgba(0, 0, 0, 0.92); backdrop-filter: blur(10px); border-radius: 15px; border: 2px solid #00E5FF; box-shadow: 0 0 30px rgba(0, 229, 255, 0.4);">
+                                <h3 style="color: #00E5FF; margin-bottom: 15px; text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);">⚠️ AR Loading Timeout</h3>
+                                <p style="margin-bottom: 15px; color: #ffffff;">The AR experience is taking longer than expected to load.</p>
+                                <p style="font-size: 14px; margin-bottom: 10px; color: #32FFF5;"><strong>Possible issues:</strong></p>
+                                <ul style="text-align: left; font-size: 13px; margin-bottom: 15px; line-height: 1.6; color: #C2C2C2;">
+                                    <li>Missing target image file (.mind file)</li>
+                                    <li>Slow network connection</li>
+                                    <li>Camera permissions not granted</li>
+                                    <li>Browser compatibility issue</li>
+                                </ul>
+                                <p style="font-size: 13px; margin-bottom: 15px; color: #C2C2C2;">
+                                    <strong style="color: #32FFF5;">For developers:</strong> Ensure you've compiled your poster to a .mind file.<br>
+                                    Run: <code style="background: rgba(0, 229, 255, 0.1); padding: 2px 6px; border-radius: 3px; color: #00E5FF;">node scripts/compile-mindar-target.js</code>
+                                </p>
+                                <button onclick="location.reload()" style="background: linear-gradient(135deg, #00E5FF 0%, #32FFF5 100%); color: #000; border: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-right: 10px; box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4); transition: all 0.3s ease;">
+                                    Retry
+                                </button>
+                                <button onclick="console.log('Check browser console for details')" style="background: rgba(50, 255, 245, 0.1); color: #32FFF5; border: 2px solid #32FFF5; padding: 10px 24px; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;">
+                                    View Console
+                                </button>
+                            </div>
+                        `;
+                    }
+                }
+            }, 10000); // 10 second timeout
+        });
+    </script>
+</body>
+</html>

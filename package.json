@@ -1,0 +1,30 @@
+{
+  "name": "lpfts-codex-webar",
+  "version": "1.0.0",
+  "description": "LPFTS Legacy Codex WebAR experience using MindAR and Three.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "build:codex": "node scripts/build-codex-model.js",
+    "compile:target": "node scripts/compile-mindar-target.js",
+    "render:codex": "node scripts/render-codex-png.js",
+    "render:poster": "node scripts/render-codex-png.js",
+    "generate:qrcode": "node scripts/generate-qrcode.js",
+    "generate:8thwall-qr": "node scripts/generate-8thwall-qr.js",
+    "generate:poster-pdf": "node scripts/generate-poster-pdf.js",
+    "prepare:offline": "node scripts/prepare-offline.js",
+    "prepare:release": "node scripts/prepare-release.js",
+    "deploy:codex": "node scripts/deploy-codex.js"
+  },
+  "dependencies": {
+    "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "canvas": "^3.2.0",
+    "qrcode": "^1.5.4",
+    "terser": "^5.44.1",
+    "vite": "^5.0.0"
+  }
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="LPFTS Legacy Codex WebAR - Offline Version">
+    <meta name="theme-color" content="#000000">
+    <title>LPFTS Codex WebAR - Offline</title>
+    
+    <!-- Styles (inline for offline) -->
+    <style>
+        /* Inline styles for offline use - full styles.css content would go here */
+        /* For brevity, including key styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #000; color: #fff; overflow: hidden; }
+        #ar-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; justify-content: center; align-items: center; z-index: 10000; }
+        .loading-content { text-align: center; }
+        .loading-logo { font-size: 48px; font-weight: bold; color: #05FF00; text-shadow: 0 0 20px rgba(5, 255, 0, 0.5); margin-bottom: 30px; }
+    </style>
+    
+    <!-- MindAR from local file (offline) -->
+    <script src="./lib/mindar-image-three.prod.js"></script>
+</head>
+<body>
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">LPFTS</div>
+            <h2>Loading LPFTS Legacy Codex…</h2>
+            <p>Offline Mode - Allow camera access</p>
+        </div>
+    </div>
+
+    <div id="ar-container"></div>
+    <div id="error-message" class="error-message hidden"></div>
+
+    <!-- Main script (will be bundled by Vite) -->
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>
